@@ -1,0 +1,10 @@
+all:
+  children:
+    k8s:
+      children:
+        kvm:
+          hosts:
+            k-n[1:3]:
+        vmware:
+          hosts:
+            v-n[1:3]:

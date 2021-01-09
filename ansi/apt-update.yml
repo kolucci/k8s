@@ -1,0 +1,9 @@
+- hosts: k8s
+  tasks:
+  - name: Update all packages to latest version
+    become: yes
+    become_method: sudo
+    apt:
+      update_cache: yes
+      name: "*"
+      state: latest

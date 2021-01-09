@@ -1,0 +1,16 @@
+- hosts: kvm
+  tasks:
+  - name: Install KVM additions
+    become: yes
+    become_method: sudo
+    apt:
+      name: ['xserver-xorg-video-qxl', 'spice-vdagent']
+      state: latest
+- hosts: vmware
+  tasks:
+  - name: Install VMWare additions
+    become: yes
+    become_method: sudo
+    apt:
+      name: ['open-vm-tools']
+      state: latest
