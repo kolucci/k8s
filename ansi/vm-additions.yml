@@ -7,6 +7,8 @@
       name: ['xserver-xorg-video-qxl', 'spice-vdagent']
       state: latest
 - hosts: vmware
+  become: yes
+  become_method: sudo
   tasks:
   - name: Install VMWare additions
     apt:

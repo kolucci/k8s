@@ -1,10 +1,28 @@
 all:
+  hosts:
+    localhost
   children:
     k8s: # Только для тестирования! За пределами avd-tpe14 работать всё равно не будет... :-)
       children:
         kvm:
           hosts:
-            k-n[1:3]:
+            k-n1:
+              ansible_host: 192.168.122.185
+              cluster_host: "vs-k-n1"
+            k-n2:
+              ansible_host: 192.168.122.76
+              cluster_host: "vs-k-n2"
+            k-n3:
+              ansible_host: 192.168.122.65
+              cluster_host: "vs-k-n3"
         vmware:
           hosts:
-            v-n[1:3]:
+            v-n1:
+              ansible_host: 192.168.197.140
+              cluster_host: "vs-v-n1"
+            v-n2:
+              ansible_host: 192.168.197.141
+              cluster_host: "vs-v-n2"
+            v-n3:
+              ansible_host: 192.168.197.142
+              cluster_host: "vs-v-n3"
