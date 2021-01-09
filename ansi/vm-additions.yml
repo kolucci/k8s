@@ -12,9 +12,3 @@
     apt:
       name: ['open-vm-tools']
       state: latest
-- hosts: osa
-  tasks:
-  - name: Install VMWare additions
-    apt:
-      name: ['open-vm-tools']
-      state: latest
