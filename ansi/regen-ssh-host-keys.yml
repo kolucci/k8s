@@ -1,0 +1,25 @@
+- hosts: k8s
+  become: yes
+  become_method: sudo
+  become_user: root
+
+  tasks:
+  - name: Удаляем все существующие ключи
+    file:
+      dest: "{{ item }}"
+      state: absent
+    with_items:
+      - /etc/ssh/ssh_host_ecdsa_key.pub
+      - /etc/ssh/ssh_host_ecdsa_key
+      - /etc/ssh/ssh_host_dsa_key.pub
+      - /etc/ssh/ssh_host_dsa_key
+      - /etc/ssh/ssh_host_rsa_key.pub
+      - /etc/ssh/ssh_host_rsa_key
+      - /etc/ssh/ssh_host_ed25519_key.pub
+      - /etc/ssh/ssh_host_ed25519_key
+
+  - name: Генерируем новые ключи
+    command: ssh-keygen -A
+    register: ssh_keygen_output
+
+  - debug: msg="Результат выполнения {{ ssh_keygen_output.stdout }}"

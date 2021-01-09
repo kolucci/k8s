@@ -1,6 +1,8 @@
 - hosts: k8s
   tasks:
   - name: Set up authorized_keys for the ansi user
-    authorized_key: user=ansi key="{{ item }}"
+    authorized_key:
+      user: ansi
+      key: "{{ item }}"
     with_file:
     - ssh-keys/ansi.pub

@@ -1,0 +1,85 @@
+- hosts: k8s
+  become: yes
+  become_method: sudo
+  remote_user: ansi
+  tasks:
+    - name: Добавить обмен ключами
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^KexAlgorithms'
+        line: 'KexAlgorithms curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256'
+    - name: Добавить обмен шифрами и MAC
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^Ciphers'
+        line: 'Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr'
+
+    - name: Включить 2-ю версию протокола и наиболее безопасные алгоритмы аутентификации сервера
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: "{{ item.regexp }}"
+        line: "{{ item.line }}"
+      with_items:
+        - {regexp: '^Protocol 2', line: 'Protocol 2'}
+        - {regexp: '^HostKey /etc/ssh/ssh_host_ed25519_key', line: 'HostKey /etc/ssh/ssh_host_ed25519_key'}
+        - {regexp: '^HostKey /etc/ssh/ssh_host_rsa_key', line: 'HostKey /etc/ssh/ssh_host_rsa_key'}
+
+    - name: Отключить небезопасные алгоритмы
+      lineinfile:
+        dest: /etc/ssh/sshd_config
+        regexp: "{{ item }}"
+        state: absent
+      with_items:
+        - '^HostKey /etc/ssh/ssh_host_ecdsa_key'
+        - '^HostKey /etc/ssh/ssh_host_dsa_key'
+
+    - name: Удалить файлы небезопасных ключей
+      file:
+        dest: "{{ item }}"
+        state: absent
+      with_items:
+        - /etc/ssh/ssh_host_ecdsa_key.pub
+        - /etc/ssh/ssh_host_ecdsa_key
+        - /etc/ssh/ssh_host_dsa_key.pub
+        - /etc/ssh/ssh_host_dsa_key
+
+    - name: Отключить логин по паролю и разрешить логиниться только с помощью publickey
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: "{{ item.regexp }}"
+        line: "{{ item.line }}"
+      with_items:
+        - {regexp: '^#?AuthenticationMethods', line: 'AuthenticationMethods publickey'}
+        - {regexp: '^#?PasswordAuthenticatio', line: 'PasswordAuthentication no'}
+        - {regexp: '^#?ChallengeResponseAuthentication', line: 'ChallengeResponseAuthentication no'}
+        - {regexp: '^#?PubkeyAuthentication', line: 'PubkeyAuthentication yes'}
+
+    # Установить LogLevel на уровень VERBOSE, чтобы регистрировать отпечаток ключа пользователя при входе в систему. Нужно четко отслеживать, какой ключ использовался для входа в систему.
+    - name: Установить LogLevel на уровень VERBOSE
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^LogLevel'
+        line: 'LogLevel VERBOSE'
+
+    # Запрет root-логина. Потому что трудно отследить, какой процесс принадлежит какому пользователю root
+    # В Linux пользовательские сеансы отслеживаются с использованием идентификатора сеанса на стороне ядра, однако этот идентификатор сеанса не записывается OpenSSH.
+    # Кроме того, только инструменты, такие как systemd и audd записывают идентификатор сеанса процесса.
+    # В других ОС идентификатор сеанса пользователя не обязательно записывается на всей стороне ядра.
+    # Использование обычных пользователей в сочетании с /bin/su или /usr/bin/sudo обеспечивает четкое отслеживание аудита.
+    - name: Запрет root-логина
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: "{{ item.regexp }}"
+        line: "{{ item.line }}"
+      with_items:
+        - {regexp: '^PermitRootLogin', line: 'PermitRootLogin No'}
+        # Разрешить логиниться только определенным пользователям (можно указать AllowGroups). @TODO На боевых системах подправить
+        # - {regexp: '^AllowUsers', line: 'AllowUsers ansi'}
+
+    - name: Перезапуск sshd
+      service:
+        name: sshd
+        state: restarted
+
+    - debug:
+        msg: "Готово! При необходимости сгенерируйте клиентские ключи с помощью следующей команды: ssh-keygen -t ed25519 -a 100 && ssh-keygen -t rsa -b 4096 -a 100"

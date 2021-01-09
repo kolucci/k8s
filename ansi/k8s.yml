@@ -1,6 +1,6 @@
 all:
   children:
-    k8s:
+    k8s: # Только для тестирования! За пределами avd-tpe14 работать всё равно не будет... :-)
       children:
         kvm:
           hosts:
@@ -8,3 +8,17 @@ all:
         vmware:
           hosts:
             v-n[1:3]:
+    otr: # Боевые сервера - применять осторожно!
+      children:
+        mx:
+          hosts:
+            ml-local.otr.ru:
+            ml.itargo.ru:
+            ml.prodata.pro:
+            ml4.otr.ru:
+            ml5.otr.ru:
+        osa:
+          hosts:
+            vs-otr-elk02.otr.ru:
+            vs-otr-ansi02.otr.ru:
+            vs-otr-prometheus01.otr.ru:

@@ -1,0 +1,47 @@
+# Запускать осторожно!
+# Команда: ansible-playbook --ask-pass useradd.yml
+# Запросит пароль рута нужного сервера.
+# После инициализации даннй плейбуком обязательно запускать secure-ssh.yml!
+- hosts:
+  #- all
+  #- localhost
+  - k8s
+  become: yes
+  #remote_user: root
+  tasks:
+
+  - name: Добавить пользователя 'ansi' с добавлением его в группу 'sudo'
+    user:
+      name: ansi
+      password: $6$AnHYhgyoImk$ezPKOeux2o35o8UITp8zxCldpBD3p43.7qnI9zifjqR80kUEDrgH1cvQiHD8EZ6tL5pK6sZisCvRYXPVG5.Fg1
+      shell: /bin/bash
+      groups: sudo
+      append: yes
+
+  - name: Разрешить пользователю 'ansi' выполнять через sudo все команды без пароля
+    lineinfile:
+      path: /etc/sudoers
+      owner: root
+      group: root
+      mode: "0440"
+      state: present
+      regexp: '^%sudo\s'
+      line: '%sudo ALL=(ALL) NOPASSWD: ALL'
+      validate: 'visudo -c -f %s'
+
+  - name: Создать 2048-битовый SSH ключ для ansi в ~ansi/.ssh/id_rsa
+    user:
+      name: ansi
+      generate_ssh_key: yes
+      ssh_key_bits: 2048
+      ssh_key_file: .ssh/id_rsa
+      state: present
+
+  - name: Установить authorized_key из файла id_rsa.pub локального пользователя и файла id_rsa.pub на удаленной машине
+    authorized_key:
+      user: ansi
+      state: present
+      key: '{{ item }}'
+    with_items:
+      - "{{ lookup('file', '/home/ansi/.ssh/id_rsa.pub') }}"
+      - "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
