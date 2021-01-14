@@ -6,3 +6,4 @@
       key: "{{ item }}"
     with_file:
     - ssh-keys/ansi.pub
+    - ssh-keys/id_ed25519.pub
