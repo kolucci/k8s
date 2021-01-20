@@ -5,7 +5,7 @@ Documentation=https://github.com/prometheus/node_exporter
 [Service]
 Restart=always
 User=prometheus
-PIDFile=/var/run/prometheus/node_exporter.pid
+PIDFile=/run/prometheus/node_exporter.pid
 EnvironmentFile=/etc/default/node-exporter
 ExecStart=/usr/local/bin/node_exporter $ARGS
 ExecReload=/bin/kill -HUP $MAINPID

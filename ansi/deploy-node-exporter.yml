@@ -1,4 +1,4 @@
-- hosts: ubuntu #k8s
+- hosts: k8s
   tasks:
   - name: Размещаем свежий бинарник node_exporter
     become: yes
@@ -45,6 +45,24 @@
       create_home: no
       home: /tmp
       state: present
+  - name: Проверяем наличие директории протоколов
+    become: yes
+    become_method: sudo
+    file:
+      path: /var/log/prometheus
+      owner: prometheus
+      group: prometheus
+      mode: '0755'
+      state: directory
+  - name: Проверяем наличие директории PIDFile
+    become: yes
+    become_method: sudo
+    file:
+      path: /run/prometheus
+      owner: prometheus
+      group: prometheus
+      mode: '0755'
+      state: directory
   - name: Запускаем демон node-exporter
     become: yes
     become_method: sudo
