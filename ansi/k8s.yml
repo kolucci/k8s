@@ -5,24 +5,40 @@ all:
     k8s: # Только для тестирования! За пределами avd-tpe14 работать всё равно не будет... :-)
       children:
         kvm:
-          hosts:
-            k-n1:
-              ansible_host: 192.168.122.185
-              cluster_host: "vs-k-n1"
-            k-n2:
-              ansible_host: 192.168.122.76
-              cluster_host: "vs-k-n2"
-            k-n3:
-              ansible_host: 192.168.122.65
-              cluster_host: "vs-k-n3"
+          children:
+            ubuntu:
+              hosts:
+                u-n1:
+                  ansible_host: 192.168.122.81
+                  cluster_host: "u-n1"
+                u-n2:
+                  ansible_host: 192.168.122.139
+                  cluster_host: "u-n2"
+                u-n3:
+                  ansible_host: 192.168.122.154
+                  cluster_host: "u-n3"
+                u-nT:
+                  ansible_host: 192.168.122.148
+                  cluster_host: "u-nT"
+            debian:
+              hosts:
+                d-n1:
+                  ansible_host: 192.168.122.138
+                  cluster_host: "d-n1"
+                d-n2:
+                  ansible_host: 192.168.122.179
+                  cluster_host: "d-n2"
+                d-n3:
+                  ansible_host: 192.168.122.111
+                  cluster_host: "d-n3"
         vmware:
-          hosts:
-            v-n1:
-              ansible_host: 192.168.197.140
-              cluster_host: "vs-v-n1"
-            v-n2:
-              ansible_host: 192.168.197.141
-              cluster_host: "vs-v-n2"
-            v-n3:
-              ansible_host: 192.168.197.142
-              cluster_host: "vs-v-n3"
+        #   hosts:
+        #     v-n1:
+        #       ansible_host: 192.168.197.140
+        #       cluster_host: "vs-v-n1"
+        #     v-n2:
+        #       ansible_host: 192.168.197.141
+        #       cluster_host: "vs-v-n2"
+        #     v-n3:
+        #       ansible_host: 192.168.197.142
+        #       cluster_host: "vs-v-n3"

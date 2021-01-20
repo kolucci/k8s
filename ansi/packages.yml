@@ -1,0 +1,10 @@
+- hosts: kvm
+  become: yes
+  become_method: sudo
+  tasks:
+  - name: Install additional packages
+    apt:
+      name:
+        - sudo
+        - vim
+      state: latest

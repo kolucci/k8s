@@ -2,7 +2,7 @@
   become: yes
   become_method: sudo
   tasks:
-  - name: Set {{ cluster_host }} as hostname
+  - name: Set cluster_host from inventory as hostname
     hostname:
       name: "{{ cluster_host }}"
   - name: Edit /etc/hosts for 'SUPERLOCAL'loopback
@@ -10,4 +10,4 @@
       path: /etc/hosts
       state: present
       regexp: '^127\.0\.1\.1\s'
-      line: "127.0.1.1 {{ cluster_host }} {{ cluster_host }}.k8s.loc"
+      line: "127.0.1.1 {{ cluster_host }} {{ cluster_host }}.k8s.local"

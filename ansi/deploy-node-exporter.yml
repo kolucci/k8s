@@ -1,0 +1,55 @@
+- hosts: ubuntu #k8s
+  tasks:
+  - name: Размещаем свежий бинарник node_exporter
+    become: yes
+    become_method: sudo
+    copy:
+      src: "{{ item }}"
+      dest: "/usr/local/{{ item }}"
+      owner: root
+      group: root
+      mode: u=rwx,g=rx,o=rx
+    with_items:
+    - bin/node_exporter
+  - name: Создаем файл настроек по умолчанию
+    become: yes
+    become_method: sudo
+    copy:
+      src: node-exporter
+      dest: "/etc/default/node-exporter"
+      owner: root
+      group: root
+      mode: u=rw,g=r,o=r
+  - name: Размещаем сервис node-exporter'a
+    become: yes
+    become_method: sudo
+    copy:
+      src: services/node-exporter.service
+      dest: "/etc/systemd/system/node-exporter.service"
+      owner: root
+      group: root
+      mode: u=rw,g=r,o=r
+  - name: Проверяем наличие группы prometheus
+    become: yes
+    become_method: sudo
+    group:
+      name: prometheus
+      state: present
+  - name: Проверяем наличие пользователя prometheus
+    become: yes
+    become_method: sudo
+    user:
+      name: prometheus
+      group: prometheus
+      shell: /bin/false
+      create_home: no
+      home: /tmp
+      state: present
+  - name: Запускаем демон node-exporter
+    become: yes
+    become_method: sudo
+    systemd:
+      name: node-exporter
+      state: started
+      enabled: yes
+      daemon_reload: yes
