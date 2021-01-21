@@ -1,0 +1,9 @@
+- hosts: k8s
+  become: yes
+  become_method: sudo
+  tasks:
+  - name: Generate /etc/hosts file
+    blockinfile:
+      dest: /etc/hosts
+      content: "{{ lookup('template', 'templates/etc/hosts.j2') }}"
+      state: present
