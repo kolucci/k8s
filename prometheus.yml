@@ -1,0 +1,32 @@
+scrape_configs:
+  # Scrape Prometheus itself every 5 seconds.
+  - job_name: 'prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # Scrape the Node Exporter every 5 seconds.
+  - job_name: 'node'
+    scrape_interval: 5s
+    static_configs:
+      - targets:
+        # k8s tests
+        - u-n1.k8s.local:9100
+        - u-n2.k8s.local:9100
+        - u-n3.k8s.local:9100
+        - u-nT.k8s.local:9100
+        - d-n1.k8s.local:9100
+        - d-n2.k8s.local:9100
+        - d-n3.k8s.local:9100
+        - docker.local:9100
+    metric_relabel_configs:
+      - source_labels: [instance]
+        regex: '(.*):9100'
+        replacement: '$1'
+        target_label: instance
+
+  # Scrape the Grafana every 5 seconds.
+  - job_name: 'grafana'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['192.168.122.162:3000']
