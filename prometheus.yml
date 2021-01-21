@@ -30,3 +30,10 @@ scrape_configs:
     scrape_interval: 5s
     static_configs:
       - targets: ['192.168.122.162:3000']
+
+  # Scrape for Google's cAdvisor - Docker monitoring
+  - job_name: cadvisor
+    scrape_interval: 5s
+    static_configs:
+      - targets:
+        - cadvisor:8080
