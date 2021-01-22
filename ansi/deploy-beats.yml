@@ -8,7 +8,7 @@
     package_facts:
       manager: auto
 
-  - name: "Install {{ item }} v.{{ version }}"
+  - name: Checking beats for v.{{ version  }}...
     include_tasks: tasks/install.yml
     when: item not in ansible_facts.packages
     with_items:
@@ -21,7 +21,3 @@
   #   with_items:
   #     - filebeat
   #     # - metricbeat
-
-  - name: Deploying Done!
-    debug:
-      msg: "OK"
