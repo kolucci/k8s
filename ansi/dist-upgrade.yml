@@ -1,6 +1,6 @@
 - hosts: dev
   tasks:
-  - name: Upgrade all packages to latest version
+  - name: dist-upgrade system...
     become: yes
     become_method: sudo
     apt:

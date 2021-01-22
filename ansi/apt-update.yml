@@ -1,4 +1,4 @@
-- hosts: k8s
+- hosts: dev
   tasks:
   - name: Update-only cache for packages
     become: yes

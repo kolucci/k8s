@@ -1,4 +1,4 @@
-- hosts: k8s
+- hosts: dev
   tasks:
   - name: Размещаем свежий бинарник node_exporter
     become: yes

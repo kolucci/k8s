@@ -1,4 +1,4 @@
-- hosts: kvm
+- hosts: dev
   become: yes
   become_method: sudo
   tasks:
@@ -7,4 +7,8 @@
       name:
         - sudo
         - vim
+        - glances
+        - htop
+        - byobu
+        - mc
       state: latest

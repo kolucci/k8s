@@ -1,4 +1,4 @@
-- hosts: all
+- hosts: dev
   tasks:
   - name: Set up authorized_keys for the ansi user
     authorized_key:
