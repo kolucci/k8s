@@ -1,0 +1,36 @@
+all:
+  # hosts:
+  #   localhost
+  children:
+    k8s: # Только для тестирования! За пределами avd-tpe14 работать всё равно не будет... :-)
+      children:
+        vbox:
+          children:
+            ubuntu:
+              hosts:
+                u-n1:
+                  ansible_host: 192.168.31.22
+                  cluster_host: "u-n1"
+                  cluster_host_fqdn: "u-n1.k8s.local"
+                u-n2:
+                  ansible_host: 192.168.31.93
+                  cluster_host: "u-n2"
+                  cluster_host_fqdn: "u-n2.k8s.local"
+                u-n3:
+                  ansible_host: 192.168.31.32
+                  cluster_host: "u-n4"
+                  cluster_host_fqdn: "u-n4.k8s.local"
+                u-n4:
+                  ansible_host: 192.168.31.93
+                  cluster_host: "u-n5"
+                  cluster_host_fqdn: "u-n5.k8s.local"
+            debian:
+              hosts:
+                d-n3:
+                  ansible_host: 192.168.31.24
+                  cluster_host: "d-n3"
+                  cluster_host_fqdn: "d-n3.k8s.local"
+                d-n6:
+                  ansible_host: 192.168.31.85
+                  cluster_host: "d-n6"
+                  cluster_host_fqdn: "d-n6.k8s.local"

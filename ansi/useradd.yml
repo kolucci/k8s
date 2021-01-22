@@ -3,9 +3,7 @@
 # Запросит пароль рута нужного сервера.
 # После инициализации данным плейбуком обязательно запускать secure-ssh.yml!
 - hosts:
-  #- all
-  #- localhost
-  - k8s
+  - all
   become: yes
   #remote_user: root
   tasks:
