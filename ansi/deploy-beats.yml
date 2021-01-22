@@ -1,0 +1,27 @@
+- hosts: k8s
+  become: yes
+  become_method: sudo
+  vars:
+    version: "7.10.2"
+  tasks:
+  - name: Gathering package facts
+    package_facts:
+      manager: auto
+
+  - name: "Install {{ item }} v.{{ version }}"
+    include_tasks: tasks/install.yml
+    when: item not in ansible_facts.packages
+    with_items:
+      - filebeat
+      - metricbeat
+
+  # - name: Hold Filebeat v.{{ version }}
+  #   include_tasks: tasks/hold-{{ item }}.yml
+  #   when: (item in ansible_facts.packages) and (ansible_facts.packages[item][0].version != version)
+  #   with_items:
+  #     - filebeat
+  #     # - metricbeat
+
+  - name: Deploying Done!
+    debug:
+      msg: "OK"

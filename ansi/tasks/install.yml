@@ -1,0 +1,24 @@
+- name: "Copying package {{ item }}-{{ version }}-amd64.deb to /tmp on destination..."
+  copy:
+    src: "../deb/{{ item }}-{{ version }}-amd64.deb"
+    dest: "/tmp/{{ item }}-{{ version }}-amd64.deb"
+    owner: "ansi"
+    group: "ansi"
+    mode: "0644"
+
+- name: Deploying package...
+  apt:
+    deb: "/tmp/{{ item }}-{{ version }}-amd64.deb"
+
+- name: Remove installed package after deploy (Garbage collection, you see...)
+  file:
+    path: "/tmp/{{ item }}-{{ version }}-amd64.deb"
+    state: absent
+
+- name: Remove useless packages from the cache
+  apt:
+    autoclean: yes
+
+- name: Remove dependencies that are no longer required
+  apt:
+    autoremove: yes

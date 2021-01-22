@@ -21,7 +21,7 @@ all:
                   cluster_host: "u-n3"
                   cluster_host_fqdn: "u-n3.k8s.local"
                 u-nT:
-                  ansible_host: 192.168.122.148
+                  ansible_host: 192.168.122.147
                   cluster_host: "u-nT"
                   cluster_host_fqdn: "u-nT.k8s.local"
             debian:
