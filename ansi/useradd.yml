@@ -1,5 +1,5 @@
 # Запускать осторожно!
-# Команда: ansible-playbook --ask-pass useradd.yml
+# Команда: ansible-playbook --ask-pass useradd.yml (также, ansible-playbook -Kk useradd.yml)
 # Запросит пароль рута нужного сервера.
 # После инициализации данным плейбуком обязательно запускать secure-ssh.yml!
 - hosts:
@@ -41,6 +41,7 @@
       state: present
       key: '{{ item }}'
     with_items:
-      - "{{ lookup('file', '/home/ansi/.ssh/id_rsa.pub') }}"
-      - "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+      - "{{ lookup('file', 'ssh-keys/id_rsa.pub') }}"
+      - "{{ lookup('file', 'ssh-keys/avd-tpe14_ed25519.pub') }}"
+      - "{{ lookup('file', 'ssh-keys/ansi.pub') }}"
       # - "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_ed25519.pub') }}"
