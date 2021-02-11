@@ -1,0 +1,89 @@
+---
+# Запускать осторожно!
+# Команда: ansible-playbook --ask-pass useradd.yml (также, ansible-playbook -Kk useradd.yml)
+# Запросит пароль рута нужного сервера.
+# После инициализации данным плейбуком обязательно запускать secure-ssh.yml!
+- hosts:
+  - all
+  remote_user: root
+  
+  vars_prompt:
+  - name: "user_password"
+    prompt: "ansi user password to set"
+    private: yes
+    encrypt: "sha512_crypt"
+    confirm: yes
+    salt_size: 7
+  
+  tasks:
+
+  - name: Устанавливаем пакет 'sudo'
+    package:
+      name: sudo
+      state: present
+
+  - name: Добавляем 'ansi' группа 'sudo' (Debian)
+    user:
+      name: ansi
+      password: "{{ user_password }}"
+      shell: /bin/bash
+      group: ansi
+      groups: sudo
+      append: yes
+      generate_ssh_key: yes
+      ssh_key_bits: 2048
+      state: present
+    when:
+      ansible_facts['os_family'] == "Debian"
+
+  - name: Добавляем 'ansi' группа 'wheel' (RedHat)
+    user:
+      name: ansi
+      password: "{{ user_password }}"
+      shell: /bin/bash
+      group: ansi
+      groups: wheel
+      append: yes
+      generate_ssh_key: yes
+      ssh_key_bits: 2048
+      state: present
+    when:
+      ansible_facts['os_family'] == "RedHat" or ansible_facts['os_family'] == "Sangoma"
+
+  - name: Разрешаем 'ansi' выполнять sudo всё без пароля (Debian)
+    lineinfile:
+      path: /etc/sudoers
+      owner: root
+      group: root
+      mode: "0440"
+      state: present
+      regexp: '^%sudo\s'
+      line: '%sudo ALL=(ALL) NOPASSWD: ALL'
+      validate: 'visudo -c -f %s'
+    when:
+      ansible_facts['os_family'] == "Debian"
+
+  - name: Разрешаем 'ansi' выполнять sudo всё без пароля (RedHat)
+    lineinfile:
+      path: /etc/sudoers
+      owner: root
+      group: root
+      mode: "0440"
+      state: present
+      regexp: '^%wheel\s'
+      line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+      validate: 'visudo -c -f %s'
+    when:
+      ansible_facts['os_family'] == "RedHat" or ansible_facts['os_family'] == "Sangoma"
+
+  - name: Устанавливаем authorized_keys из файлов ключей, удаляя все существующие
+    authorized_key:
+      user: ansi
+      state: present
+      key: '{{ item }}'
+      exclusive: true
+    with_items:
+      # - "{{ lookup('file', 'ssh-keys/id_rsa.pub') }}"
+      - "{{ lookup('file', 'ssh-keys/avd-tpe14_ed25519.pub') }}"
+      # - "{{ lookup('file', 'ssh-keys/ansi.pub') }}"
+      - "{{ lookup('file', 'ssh-keys/vs-otr-ansi02.pub') }}"

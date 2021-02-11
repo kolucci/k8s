@@ -1,0 +1,19 @@
+---
+- name: Converge
+  hosts: all
+
+  # pre_tasks:
+  #   - name: Gather facts from ALL hosts
+  #     setup:
+  #       gather_subset:
+  #         - facter
+  #     delegate_to: "{{ item }}"
+  #     delegate_facts: yes
+  #     # register: data["{{ hostvars[item]['ansible_hostname']}} "]
+  #     when: hostvars[item]['ansible_hostname'] is not defined
+  #     loop: "{{ groups['all'] }}"
+
+  tasks:
+    - name: "Include facts"
+      include_role:
+        name: "facts"

@@ -1,0 +1,19 @@
+[Unit]
+Description=Prometheus exporter for machine metrics
+Documentation=https://github.com/prometheus/node_exporter
+
+[Service]
+Restart=always
+User=prometheus
+PIDFile=/run/prometheus/node_exporter.pid
+EnvironmentFile=/etc/default/node-exporter
+ExecStart=/usr/local/bin/node_exporter $ARGS
+ExecReload=/bin/kill -HUP $MAINPID
+TimeoutStopSec=20s
+SendSIGKILL=no
+
+# StandardOutput=/var/log/prometheus/node_exporter.log
+# StandardError=/var/log/prometheus/node_exporter.log
+
+[Install]
+WantedBy=multi-user.target

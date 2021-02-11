@@ -1,0 +1,14 @@
+---
+- hosts: all
+  gather_facts: no
+  connection: ssh
+  user: dude #root
+  # become: yes
+  # become_method: sudo
+  tasks:
+  - name: Get os-release
+    shell: 'cat /etc/os-release | egrep "NAME|VERSION_ID|VERSION_CODENAME"'
+    register: osr
+    args:
+      warn: no
+  - debug: var=osr.stdout_lines

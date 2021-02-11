@@ -1,0 +1,140 @@
+---
+all:
+  children:
+    Debian:
+      hosts:
+        data.otr.ru:
+          ansible_host: 172.31.4.45
+        conf.otr.ru:
+          ansible_host: 195.137.187.216
+        openvpn_ad_new:
+          ansible_host: 10.252.252.1
+        RackTables:
+          ansible_host: 172.31.4.11
+        vm-otr-netcfgbackup:
+          ansible_host: 172.31.4.13
+        vs-otr-powerdns02:
+          ansible_host: 10.100.20.111
+        vs-otr-syslog01:
+          ansible_host: 172.31.4.14
+        vs-otr-librenms01:
+          ansible_host: 172.31.4.16
+        vs-otr-powerdns01:
+          ansible_host: 10.100.20.110
+        redmine:
+          ansible_host: 10.100.20.69
+        vs-otr-ipam01:
+          ansible_host: 172.31.4.12
+        mail.prodata.pro:
+          ansible_host: 172.31.4.147
+        nginx_revers_proxy_int:
+          ansible_host: 172.31.4.146
+        nginx_revers_proxy_POCHTA:
+          ansible_host: 172.31.4.126
+        esb-kis.otr.ru:
+          ansible_host: 172.31.4.18
+        confbort.otr.ru:
+          ansible_host: 172.31.4.157
+        vs-otr-esb.otr.ru:
+          ansible_host: 172.31.4.15
+        webinar.otr.ru:
+          ansible_host: 10.100.20.70
+        tacacs.otr.ru:
+          ansible_host: 172.31.4.66
+        mail.ext-mail.ru:
+          ansible_host: 10.100.20.85
+        mail.centertk.ru:
+          ansible_host: 10.100.20.74
+        custom.mail.otr.ru:
+          ansible_host: 10.100.20.170
+
+    RedHat:
+      hosts:
+        vcs.prodata.pro:
+          ansible_host: 172.31.4.190
+
+    Unknown:
+      hosts:
+        vs-otr-voip-intra:
+          ansible_host: 172.31.100.2
+        voip2:
+          ansible_host: 10.100.20.68
+
+    Ansi:
+      hosts:
+        ml5:
+          ansible_host: 10.100.20.217
+        ml-local(new):
+          ansible_host: 172.31.4.220
+        ml1.prodata.pro:
+          ansible_host: 10.100.20.172
+        ml4:
+          ansible_host: 10.100.20.86
+        ml1.itargo.ru:
+          ansible_host: 10.100.20.171
+        gitlabbort:
+          ansible_host: 172.31.4.32
+        owncloud:
+          ansible_host: 172.31.2.59
+        confosa:
+          ansible_host: 172.31.4.39
+        rocketchat:
+          ansible_host: 10.100.20.71
+        squid_ad_auth:
+          ansible_host: 172.31.4.159
+        vs-otr-proxy-api:
+          ansible_host: 172.31.4.64
+        vs-otr-web-crap:
+          ansible_host: 172.31.4.156
+        vs-otr-webconf3:
+          ansible_host: 195.137.187.144
+        vs-otr-elk02:
+          ansible_host: 172.31.4.109
+        vs-otr-prometheus01:
+          ansible_host: 172.31.4.42
+        vs-otr-ansi02:
+          ansible_host: 172.31.4.41
+
+    k8s:
+      hosts:
+        k8s1:
+          ansible_host: 172.31.4.165
+        k8s2:
+          ansible_host: 172.31.4.166
+        k8s3:
+          ansible_host: 172.31.4.167
+        k8s4:
+          ansible_host: 172.31.4.168
+        k8s5:
+          ansible_host: 172.31.4.169
+        k8s6:
+          ansible_host: 172.31.4.170
+        k8s_nfs1:
+          ansible_host: 172.31.4.180
+
+    Dev: # EDIT!!!!!
+      children:
+        rpm:
+          hosts:
+            oel6-dev:
+              ansible_host: 192.168.31.55  # oel6-dev.sol7.loc
+            oel7-dev:
+              ansible_host: 192.168.31.82  # oel7-dev.sol7.loc
+            oel8-dev:
+              ansible_host: 192.168.31.43 # oel8-dev.sol7.loc
+        deb:
+          hosts:
+            deb8-dev:
+              ansible_host: 192.168.31.87 # deb8-dev.sol7.loc
+            deb9-dev:
+              ansible_host: 192.168.31.22 # deb9-dev.sol7.loc
+            deb10-dev:
+              ansible_host: 192.168.31.42 # deb10-dev.sol7.loc
+        ubnt:
+          hosts:
+            ubnt16-dev:
+              ansible_host: 192.168.31.99 # ubnt16-dev.sol7.loc
+            ubnt18-dev:
+              ansible_host: 192.168.31.44 # ubnt18-dev.sol7.loc
+            ubnt20-dev:
+              ansible_host: 192.168.31.45 # ubnt20-dev.sol7.loc

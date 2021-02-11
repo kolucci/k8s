@@ -1,0 +1,6 @@
+---
+- name: Include tasks
+  # debug:
+  #   msg: "{{ ansible_distribution }}"
+  include_tasks: tasks/{{ ansible_os_family }}-tasks.yml
+  when: ansible_os_family is defined

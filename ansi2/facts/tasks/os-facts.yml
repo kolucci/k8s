@@ -1,0 +1,22 @@
+---
+
+
+# - name: Printing ansi vars...
+#   debug:
+#     msg:
+#       - "{{ ansible_distribution }} : {{ ansible_distribution_version }}"
+#       - "{{ ansible_lsb }} : {{ ansible_lsb | type_debug }}"
+      # - "Value: {{ ansible_distribution }} Type: {{ ansible_distribution | type_debug }}"
+      # - "{{ ansible_facts['lsb_release'] }} of data type {{ ansible_facts['lsb_release'] | type_debug }}"
+
+# - name: Echoing...
+#   debug:
+#     msg: var={{ hostvars[item]['ansible_distribution'] }}
+#   with_items: "{{ groups['all'] }}"
+
+# - name: Templating...
+#   template:
+#     src: "{{ lookup('template', 'templates/inventory.j2') }}"
+#     dest: inventory.yml
+#   tags:
+#     - inventory

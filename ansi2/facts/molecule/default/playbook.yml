@@ -1,0 +1,4 @@
+# role-facts playbook
+# ---
+# - debug:
+#   msg: "Just Working"

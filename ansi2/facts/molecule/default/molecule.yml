@@ -1,0 +1,55 @@
+---
+dependency:
+  name: galaxy
+
+driver:
+  name: docker
+
+lint: |
+  set -e
+  yamllint .
+  ansible-lint .
+
+platforms:
+  - name: ubuntu-1604
+    image: geerlingguy/docker-ubuntu1604-ansible
+    pre_build_image: true
+    priveleged: true
+
+  - name: ubuntu-1804
+    image: geerlingguy/docker-ubuntu1804-ansible
+    pre_build_image: true
+    priveleged: true
+
+  - name: ubuntu-2004
+    image: geerlingguy/docker-ubuntu2004-ansible
+    pre_build_image: true
+    priveleged: true
+
+  - name: centos-6
+    image: geerlingguy/docker-centos6-ansible
+    pre_build_image: true
+    priveleged: true
+
+  - name: centos-7
+    image: geerlingguy/docker-centos7-ansible
+    pre_build_image: true
+    priveleged: true
+
+scenario:
+  name: default
+  test_sequence:
+    - lint
+    - destroy
+    - syntax
+    - create
+    - converge
+    - idempotence
+    - verify
+    - destroy    
+
+provisioner:
+  name: ansible
+
+verifier:
+  name: ansible

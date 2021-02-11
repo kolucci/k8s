@@ -1,0 +1,6 @@
+- name: "Tasks for {{ ansible_os_family }} OS-Family..."
+  debug:
+    msg:
+      - "{{ ansible_os_family }} : {{ ansible_os_family | type_debug }}"
+      - "{{ ansible_distribution }} : {{ ansible_distribution_version }}"
+      - "{{ ansible_lsb }} : {{ ansible_lsb | type_debug }}"
