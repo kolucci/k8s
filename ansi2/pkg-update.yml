@@ -1,0 +1,28 @@
+---
+- hosts: all
+  remote_user: ansi
+  become: yes
+
+  tasks:
+  - name: Обновляем кэш пакетов Debian...
+    apt:
+      autoclean: yes
+      update_cache: yes
+      force_apt_get: yes
+      cache_valid_time: 86400
+    when:
+      ansible_facts['os_family'] == "Debian"
+  - name: Обновляем кэш пакетов RedHat <= 7...
+    yum:
+      state: latest
+      update_only: yes
+    when:
+      - ansible_facts['os_family'] == "RedHat"
+      - ansible_facts['distribution_major_version'] <= "7"
+  - name: Обновляем кэш пакетов RedHat > 7...
+    dnf:
+      state: latest
+      update_only: yes
+    when:
+      - ansible_facts['os_family'] == "RedHat"
+      - ansible_facts['distribution_major_version'] > "7"

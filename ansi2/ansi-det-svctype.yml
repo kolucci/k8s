@@ -1,0 +1,11 @@
+---
+- hosts: 'all'
+  gather_facts: no
+  # become: yes
+  # become_method: sudo
+  tasks:
+  - name: Gather services facts...
+    service_facts:
+  - name: Echo
+    debug:
+      var: ansible_facts.services['{{ inventory_hostname }}']

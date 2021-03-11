@@ -1,0 +1,6 @@
+---
+- hosts: all
+  tasks:
+    - name: Ставим PNE на Debian (RH-based - руками)
+      include_tasks: tasks/deploy-node-exporter.yml
+      when: ansible_facts['os_family'] == "Debian"

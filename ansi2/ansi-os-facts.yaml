@@ -1,60 +1,8 @@
 ---
-- name: debian
-  hosts: Debian
-  connection: ssh
-  remote_user: dude # possibly, root
-  # become: true
-  # become_method: sudo
-  tasks:
-    - name: Testing for distro...
-      debug:
-        msg: "{{ ansible_distribution }} {{ ansible_distribution_version }} ({{ ansible_machine }}) Family: {{ ansible_os_family }}"
-
-- name: redhat
-  hosts: RedHat
-  connection: ssh
-  remote_user: root
-  tasks:
-    - name: Testing for distro...
-      debug:
-        msg: "{{ ansible_distribution }} {{ ansible_distribution_version }} ({{ ansible_machine }}) Family: {{ ansible_os_family }}"
-
-- name: k8s
-  hosts: k8s
-  connection: ssh
-  remote_user: ansi
-  become: true
-  tasks:
-    - name: Testing for distro...
-      debug:
-        msg: "{{ ansible_distribution }} {{ ansible_distribution_version }} ({{ ansible_machine }}) Family: {{ ansible_os_family }}"
-
-- name: managed
-  hosts: Ansi
-  connection: ssh
-  remote_user: ansi
-  # become: true
-  # become_method: sudo
-  tasks:
-    - name: Testing for distro...
-      debug:
-        msg: "{{ ansible_distribution }} {{ ansible_distribution_version }} ({{ ansible_machine }}) Family: {{ ansible_os_family }}"
-
-- name: other
-  hosts: Unknown
-  connection: ssh
-  remote_user: root
-  # become: true
-  # become_method: sudo
-  tasks:
-    - name: Testing for distro...
-      debug:
-        msg: "{{ ansible_distribution }} {{ ansible_distribution_version }} ({{ ansible_machine }}) Family: {{ ansible_os_family }}"
-
 - name: dev-all
   hosts: Dev
   connection: ssh
-  remote_user: root
+  remote_user: ansi
   # become: true
   # become_method: sudo
   tasks:
@@ -62,35 +10,35 @@
       debug:
         msg: "{{ ansible_distribution }} {{ ansible_distribution_version }} ({{ ansible_machine }}) Family: {{ ansible_os_family }}"
 
-- name: dev-rpm
-  hosts: rpm
-  connection: ssh
-  remote_user: root
-  become: true
-  # become_method: sudo
-  tasks:
-    - name: Testing for distro...
-      debug:
-        msg: "{{ ansible_distribution }} {{ ansible_distribution_version }} ({{ ansible_machine }}) Family: {{ ansible_os_family }}"
-
-- name: dev-deb
-  hosts: deb
-  connection: ssh
-  remote_user: dude
-  become: true
-  # become_method: sudo
-  tasks:
-    - name: Testing for distro...
-      debug:
-        msg: "{{ ansible_distribution }} {{ ansible_distribution_version }} ({{ ansible_machine }}) Family: {{ ansible_os_family }}"
-
-- name: dev-ubuntu
-  hosts: ubnt
-  connection: ssh
-  remote_user: dude
-  become: true
-  become_method: sudo
-  tasks:
-    - name: Testing for distro...
-      debug:
-        msg: "{{ ansible_distribution }} {{ ansible_distribution_version }} ({{ ansible_machine }}) Family: {{ ansible_os_family }}"
+# - name: dev-rpm
+#   hosts: rpm
+#   connection: ssh
+#   remote_user: root
+#   become: true
+#   # become_method: sudo
+#   tasks:
+#     - name: Testing for distro...
+#       debug:
+#         msg: "{{ ansible_distribution }} {{ ansible_distribution_version }} ({{ ansible_machine }}) Family: {{ ansible_os_family }}"
+#
+# - name: dev-deb
+#   hosts: deb
+#   connection: ssh
+#   remote_user: dude
+#   become: true
+#   # become_method: sudo
+#   tasks:
+#     - name: Testing for distro...
+#       debug:
+#         msg: "{{ ansible_distribution }} {{ ansible_distribution_version }} ({{ ansible_machine }}) Family: {{ ansible_os_family }}"
+#
+# - name: dev-ubuntu
+#   hosts: ubnt
+#   connection: ssh
+#   remote_user: dude
+#   become: true
+#   become_method: sudo
+#   tasks:
+#     - name: Testing for distro...
+#       debug:
+#         msg: "{{ ansible_distribution }} {{ ansible_distribution_version }} ({{ ansible_machine }}) Family: {{ ansible_os_family }}"
